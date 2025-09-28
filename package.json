@@ -4,17 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:api": "pnpm --filter api run start:dev",
-    "build:api": "pnpm --filter api run build",
-    "test:api": "pnpm --filter api run test",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --flag v10_config_lookup_from_file .",
     "format": "prettier --write .",
     "prepare": "husky",
+    "common": "pnpm --filter common",
     "mobile:dev": "cd apps/mobile && flutter run",
     "mobile:build": "cd apps/mobile && flutter build apk",
     "mobile:test": "cd apps/mobile && flutter test",
-    "mobile:clean": "cd apps/mobile && flutter clean",
-    "dev:all": "concurrently \"pnpm run dev:api\" \"pnpm run mobile:dev\""
+    "mobile:clean": "cd apps/mobile && flutter clean"
   },
   "keywords": [],
   "author": "",
