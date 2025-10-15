@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        BigInt    @id @default(autoincrement())
+  googleId  String    @unique @map("google_id")
+  email     String    @unique
+  fullName  String    @map("full_name")
+  avatarUrl String    @map("avatar_url")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  articles Article[]
+  comments Comment[]
+
+  @@index([googleId, email])
+  @@map("users")
+}
+
+model Article {
+  id        BigInt    @id @default(autoincrement())
+  title     String
+  authorId  BigInt    @map("author_id")
+  content   String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  author User @relation(fields: [authorId], references: [id])
+
+  articleTags ArticleTag[]
+  comments    Comment[]
+
+  @@map("articles")
+}
+
+model Tag {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  articleTags ArticleTag[]
+
+  @@index([name])
+  @@map("tags")
+}
+
+model ArticleTag {
+  id        BigInt @id @default(autoincrement())
+  articleId BigInt @map("article_id")
+  tagId     Int    @map("tag_id")
+
+  article Article @relation(fields: [articleId], references: [id])
+  tag     Tag     @relation(fields: [tagId], references: [id])
+
+  @@map("article_tags")
+}
+
+model Comment {
+  id        BigInt    @id @default(autoincrement())
+  content   String
+  userId    BigInt    @map("user_id")
+  articleId BigInt    @map("article_id")
+  parentId  BigInt?   @map("parent_id")
+  path      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  user    User      @relation(fields: [userId], references: [id])
+  article Article   @relation(fields: [articleId], references: [id])
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([path])
+  @@map("comments")
+}

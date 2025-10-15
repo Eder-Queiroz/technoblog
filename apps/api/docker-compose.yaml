@@ -7,14 +7,14 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - techonoblog-postgres-data:/var/lib/postgresql/data
     networks:
       - techonoblog-network
-    restart: "no"
+    restart: 'no'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
       interval: 10s
       timeout: 5s
       retries: 3
@@ -22,11 +22,15 @@ services:
   api:
     image: node:24-alpine3.21
     container_name: techonoblog-api
-    command: sh -c "corepack enable pnpm && corepack use pnpm@latest-10 && pnpm install && pnpm run start:dev"
+    command: sh -c "corepack enable pnpm && corepack use pnpm@10.17.1 && pnpm install && pnpm run start:dev"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - DATABASE_URL=${DATABASE_URL}
+
     ports:
       - ${PORT}:${PORT}
     depends_on:
@@ -34,10 +38,9 @@ services:
         condition: service_healthy
     networks:
       - techonoblog-network
-    restart: "no"
+    restart: 'no'
     volumes:
-      - .:/workspace
-      - /workspace/node_modules
+      - .:/workspace/apps/api
       - /workspace/apps/api/node_modules
     working_dir: /workspace/apps/api
     stdin_open: true
