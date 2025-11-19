@@ -5,7 +5,7 @@ import { baseConfig } from '../../eslint.config.mts';
 export default [
   ...baseConfig,
   {
-    ignores: ['eslint.config.mjs'],
+    ignores: ['eslint.config.mjs', 'webpack.config.js'],
   },
   {
     languageOptions: {
