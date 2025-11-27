@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from '@config/environment-variables-validation';
+import configuration from '@config/configuration';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { validate } from '@config/environment-variables-validation';
     ConfigModule.forRoot({
       isGlobal: true,
       validate: validate,
+      load: [configuration],
     }),
   ],
   controllers: [AppController],

@@ -33,6 +33,14 @@ class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   GOOGLE_CLIENT_ID: string;
+
+  @IsString()
+  @IsNotEmpty()
+  JWT_PRIVATE_KEY: string;
+
+  @IsString()
+  @IsNotEmpty()
+  JWT_SECRET: string;
 }
 
 export function validate(config: Record<string, unknown>) {

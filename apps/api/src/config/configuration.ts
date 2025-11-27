@@ -11,4 +11,8 @@ export default () => ({
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID,
   },
+  jwt: {
+    privateKey: process.env.JWT_PRIVATE_KEY,
+    secret: process.env.JWT_SECRET,
+  },
 });
