@@ -62,9 +62,12 @@ model Tag {
 }
 
 model ArticleTag {
-  id        BigInt @id @default(autoincrement())
-  articleId BigInt @map("article_id")
-  tagId     Int    @map("tag_id")
+  id        BigInt    @id @default(autoincrement())
+  articleId BigInt    @map("article_id")
+  tagId     Int       @map("tag_id")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
   article Article @relation(fields: [articleId], references: [id])
   tag     Tag     @relation(fields: [tagId], references: [id])

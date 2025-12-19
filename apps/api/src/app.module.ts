@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from '@config/environment-variables-validation';
+import { ArticlesModule } from './articles/articles.module';
 import configuration from '@config/configuration';
 
 @Module({
@@ -16,6 +17,7 @@ import configuration from '@config/configuration';
       validate: validate,
       load: [configuration],
     }),
+    ArticlesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

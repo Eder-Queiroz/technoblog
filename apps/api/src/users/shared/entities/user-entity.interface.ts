@@ -1,13 +1,8 @@
-import { BaseProps } from '@shared/utils/base-props.type';
+import { BaseProps, IBaseUserEntityProps } from '@shared';
 
-export interface IUserEntityProps {
-  googleId: string;
-  email: string;
-  fullName: string;
-  avatarUrl: string;
-}
+export type IUserEntityProps = IBaseUserEntityProps;
 
-export type IUserEntityData = BaseProps<IUserEntityProps>;
+export type IUserEntityData = BaseProps<IBaseUserEntityProps>;
 
 export interface IUserEntity extends IUserEntityData {
   toPersistence(): IUserEntityData;

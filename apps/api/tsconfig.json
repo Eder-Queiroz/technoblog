@@ -25,10 +25,13 @@
       "@users/shared": ["src/users/shared"],
       "@users/domain": ["src/users/domain"],
       "@users/*": ["src/users/*"],
-      "@database/*": ["src/database/*"],
+      "@database": ["src/database"],
       "@common/*": ["src/common/*"],
       "@config/*": ["src/config/*"],
-      "@shared/*": ["src/shared/*"]
+      "@shared": ["src/shared"],
+      "@articles/shared": ["src/articles/shared"],
+      "@articles/domain": ["src/articles/domain"],
+      "@articles/*": ["src/articles/*"]
     }
   }
 }

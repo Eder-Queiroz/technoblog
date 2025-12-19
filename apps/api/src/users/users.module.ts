@@ -1,4 +1,4 @@
-import { DatabaseModule } from '@database/database.module';
+import { DatabaseModule } from '@database';
 import { Module } from '@nestjs/common';
 import { UserRepositoryProvider } from './domain';
 import { AuthUseCaseProvider } from './use-cases/auth.use-case';
