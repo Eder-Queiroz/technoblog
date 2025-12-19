@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from '@config/environment-variables-validation';
 import { ArticlesModule } from './articles/articles.module';
 import configuration from '@config/configuration';
+import { AuthGuard } from '@shared';
 
 @Module({
   imports: [
@@ -19,7 +18,7 @@ import configuration from '@config/configuration';
     }),
     ArticlesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [AuthGuard],
+  exports: [AuthGuard],
 })
 export class AppModule {}

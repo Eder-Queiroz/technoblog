@@ -6,8 +6,9 @@ import {
   IPostArticleUseCase,
   ITagRepository,
 } from '@articles/shared';
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Provider } from '@nestjs/common';
 
+@Injectable()
 export class PostArticleUseCase implements IPostArticleUseCase {
   constructor(
     private readonly articleRepository: IArticleRepository,
@@ -31,13 +32,19 @@ export class PostArticleUseCase implements IPostArticleUseCase {
       }),
     );
 
-    await this.articleTagRepository.createMany({
-      articleId: article.id,
-      tagIds,
-    });
+    if (tagIds.length > 0) {
+      await this.articleTagRepository.createMany({
+        articleId: article.id,
+        tagIds,
+      });
+    }
   }
 
   private async allTagsExist(tagIds: number[]): Promise<boolean> {
+    if (tagIds.length === 0) {
+      return true;
+    }
+
     const tags = await this.tagRepository.findByIds(tagIds);
 
     if (tags.length !== tagIds.length) {
@@ -47,3 +54,8 @@ export class PostArticleUseCase implements IPostArticleUseCase {
     return true;
   }
 }
+
+export const PostArticleUseCaseProvider: Provider<IPostArticleUseCase> = {
+  provide: IPostArticleUseCase,
+  useClass: PostArticleUseCase,
+};

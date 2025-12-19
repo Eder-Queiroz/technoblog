@@ -31,12 +31,5 @@ export class PostArticleInput implements IPostArticleInput {
   })
   @IsArray()
   @IsNumber({}, { each: true })
-  @IsNotEmpty()
   tagIds: number[];
-
-  constructor(props: IPostArticleInput) {
-    this.title = props.title;
-    this.content = props.content;
-    this.tagIds = props.tagIds;
-  }
 }

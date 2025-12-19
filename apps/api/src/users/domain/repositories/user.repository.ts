@@ -7,10 +7,10 @@ import { UserEntity } from '../entities/user.entity';
 export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findByGoogleId(googleId: string): Promise<IUserEntity | null> {
+  async findById(id: bigint): Promise<IUserEntity | null> {
     const user = await this.prisma.user.findUnique({
       where: {
-        googleId,
+        id,
       },
     });
 

@@ -6,6 +6,7 @@ import {
   AuthOutput,
   IAuthInput,
   IAuthUseCase,
+  IJwtPayload,
   IUserRepository,
 } from '@users/shared';
 import { OAuth2Client } from 'google-auth-library';
@@ -14,7 +15,6 @@ import { OAuth2Client } from 'google-auth-library';
 export class AuthUseCase implements IAuthUseCase {
   private readonly googleClient: OAuth2Client;
   private readonly clientId: string;
-  private readonly jwtPrivateKey: string;
   private readonly jwtSecret: string;
 
   constructor(
@@ -25,8 +25,6 @@ export class AuthUseCase implements IAuthUseCase {
     this.clientId = this.configService.getOrThrow<string>('google.clientId');
     this.googleClient = new OAuth2Client(this.clientId);
 
-    this.jwtPrivateKey =
-      this.configService.getOrThrow<string>('jwt.privateKey');
     this.jwtSecret = this.configService.getOrThrow<string>('jwt.secret');
   }
 
@@ -58,8 +56,12 @@ export class AuthUseCase implements IAuthUseCase {
     });
 
     const updatedUser = await this.userRepository.upsert(user);
-    const token = this.jwtService.sign(updatedUser.id.toString(), {
-      privateKey: this.jwtPrivateKey,
+
+    const jwtPayload: IJwtPayload = {
+      id: updatedUser.id.toString(),
+    };
+
+    const token = await this.jwtService.signAsync(jwtPayload, {
       secret: this.jwtSecret,
     });
 
