@@ -23,4 +23,5 @@ export type IArticleEntityPersistence = Omit<
 
 export interface IArticleEntity extends IArticleEntityData {
   toPersistence(): IArticleEntityPersistence;
+  delete(userId: bigint): void;
 }

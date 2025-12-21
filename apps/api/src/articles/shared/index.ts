@@ -16,3 +16,6 @@ export * from './output/tag-output.interface';
 
 export * from './use-cases/post-article-use-case.interface';
 export * from './use-cases/list-articles-use-case.interface';
+export * from './use-cases/delete-article-use-case.interface';
+
+export * from './exceptions/article-domain.exception';

@@ -1,4 +1,5 @@
 import {
+  ArticleNotAuthorException,
   IArticleEntity,
   IArticleEntityData,
   IArticleEntityPersistence,
@@ -57,5 +58,16 @@ export class ArticleEntity implements IArticleEntity {
       updatedAt: this.updatedAt,
       deletedAt: this.deletedAt,
     };
+  }
+
+  private isAuthor(userId: bigint): boolean {
+    return this.authorId === userId;
+  }
+
+  delete(userId: bigint): void {
+    if (!this.isAuthor(userId)) {
+      throw new ArticleNotAuthorException();
+    }
+    this.deletedAt = new Date();
   }
 }

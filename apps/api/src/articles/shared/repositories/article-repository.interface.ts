@@ -16,4 +16,6 @@ export abstract class IArticleRepository {
     articles: IArticleEntity[];
     total: number;
   }>;
+  abstract findById(id: number): Promise<IArticleEntity | null>;
+  abstract update(article: IArticleEntity): Promise<IArticleEntity>;
 }

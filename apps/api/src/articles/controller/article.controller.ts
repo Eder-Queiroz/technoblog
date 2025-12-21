@@ -1,13 +1,24 @@
 import {
+  IDeleteArticleUseCase,
   IListArticlesUseCase,
   IPostArticleUseCase,
   PaginatedArticleInput,
   PaginatedArticlesOutput,
   PostArticleInput,
 } from '@articles/shared';
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBody,
+  ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOperation,
   ApiQuery,
@@ -23,6 +34,7 @@ export class ArticleController {
   constructor(
     private readonly postArticleUseCase: IPostArticleUseCase,
     private readonly listArticleUseCase: IListArticlesUseCase,
+    private readonly deleteArticleUseCase: IDeleteArticleUseCase,
   ) {}
 
   @Post()
@@ -51,5 +63,21 @@ export class ArticleController {
     @Query() query: PaginatedArticleInput,
   ): Promise<PaginatedArticlesOutput> {
     return this.listArticleUseCase.execute(query);
+  }
+
+  @Delete(':id')
+  @ApiOperation({
+    summary: 'Delete article',
+    description: 'Delete an article',
+  })
+  @ApiNotFoundResponse({ description: 'Article not found' })
+  @ApiForbiddenResponse({
+    description: 'Only the author can delete this article',
+  })
+  async deleteArticle(
+    @Param('id') id: number,
+    @CurrentUser() user: IBaseUserEntityData,
+  ): Promise<void> {
+    return this.deleteArticleUseCase.execute(id, user.id);
   }
 }

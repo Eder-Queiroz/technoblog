@@ -33,7 +33,9 @@ export class ArticleRepository implements IArticleRepository {
     articles: IArticleEntity[];
     total: number;
   }> {
-    const where: Prisma.ArticleWhereInput = {};
+    const where: Prisma.ArticleWhereInput = {
+      deletedAt: null,
+    };
 
     if (search) {
       where.title = {
@@ -72,6 +74,31 @@ export class ArticleRepository implements IArticleRepository {
       articles: articles.map(ArticleEntity.restore),
       total,
     };
+  }
+
+  async findById(id: number): Promise<IArticleEntity | null> {
+    const article = await this.prisma.article.findUnique({
+      where: {
+        id,
+        deletedAt: null,
+      },
+    });
+
+    if (!article) {
+      return null;
+    }
+
+    return ArticleEntity.restore(article);
+  }
+
+  async update(article: IArticleEntity): Promise<IArticleEntity> {
+    const updatedArticle = await this.prisma.article.update({
+      where: {
+        id: article.id,
+      },
+      data: article.toPersistence(),
+    });
+    return ArticleEntity.restore(updatedArticle);
   }
 }
 
