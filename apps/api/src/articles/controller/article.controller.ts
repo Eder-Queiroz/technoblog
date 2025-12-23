@@ -92,6 +92,15 @@ export class ArticleController {
 
   @Patch(':id')
   @ApiBody({ type: UpdateArticleInput })
+  @ApiOperation({
+    summary: 'Update article',
+    description: 'Update an article',
+  })
+  @ApiNotFoundResponse({ description: 'Article not found' })
+  @ApiForbiddenResponse({
+    description: 'Only the author can update this article',
+  })
+  @ApiResponse({ status: 200, description: 'Article updated successfully' })
   async updateArticle(
     @Param() { id }: BigIntIdInput,
     @Body() dto: UpdateArticleInput,

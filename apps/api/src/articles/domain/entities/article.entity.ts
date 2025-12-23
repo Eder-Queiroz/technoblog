@@ -61,7 +61,7 @@ export class ArticleEntity implements IArticleEntity {
     };
   }
 
-  isAuthor(userId: bigint): boolean {
+  private isAuthor(userId: bigint): boolean {
     return this.authorId === userId;
   }
 
@@ -72,7 +72,10 @@ export class ArticleEntity implements IArticleEntity {
     this.deletedAt = new Date();
   }
 
-  update(props: IArticleEntityUpdateProps): void {
+  update(props: IArticleEntityUpdateProps, userId: bigint): void {
+    if (!this.isAuthor(userId)) {
+      throw new ArticleNotAuthorException();
+    }
     this.title = props.title ?? this.title;
     this.content = props.content ?? this.content;
     this.updatedAt = new Date();

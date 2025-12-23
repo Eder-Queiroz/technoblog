@@ -27,7 +27,6 @@ export type IArticleEntityUpdateProps = Partial<
 
 export interface IArticleEntity extends IArticleEntityData {
   toPersistence(): IArticleEntityPersistence;
-  isAuthor(userId: bigint): boolean;
   delete(userId: bigint): void;
-  update(props: IArticleEntityUpdateProps): void;
+  update(props: IArticleEntityUpdateProps, userId: bigint): void;
 }

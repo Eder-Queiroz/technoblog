@@ -7,6 +7,6 @@ export class ArticleDomainException extends Error {
 
 export class ArticleNotAuthorException extends ArticleDomainException {
   constructor() {
-    super('Only the author can delete this article');
+    super('Only the author can change this article');
   }
 }

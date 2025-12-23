@@ -5,6 +5,7 @@ import {
   ITagRepository,
   type IUpdateArticleInput,
   IUpdateArticleUseCase,
+  ArticleNotAuthorException,
 } from '@articles/shared';
 import { Transactional } from '@database';
 import {
@@ -28,24 +29,27 @@ export class UpdateArticleUseCase implements IUpdateArticleUseCase {
     userId: bigint,
     input: IUpdateArticleInput,
   ): Promise<void> {
-    const article = await this.articleRepository.findById(articleId);
+    try {
+      const article = await this.articleRepository.findById(articleId);
 
-    if (!article) {
-      throw new NotFoundException('Article not found');
+      if (!article) {
+        throw new NotFoundException('Article not found');
+      }
+
+      if (!(await this.allTagsExist(input.tagIds))) {
+        throw new NotFoundException('Some tags do not exist');
+      }
+
+      article.update(input, userId);
+
+      await this.articleRepository.update(article);
+      await this.updateArticleTags(article, input.tagIds);
+    } catch (error) {
+      if (error instanceof ArticleNotAuthorException) {
+        throw new ForbiddenException(error.message);
+      }
+      throw error;
     }
-
-    if (!article.isAuthor(userId)) {
-      throw new ForbiddenException('Only the author can update this article');
-    }
-
-    if (!(await this.allTagsExist(input.tagIds))) {
-      throw new NotFoundException('Some tags do not exist');
-    }
-
-    article.update(input);
-
-    await this.articleRepository.update(article);
-    await this.updateArticleTags(article, input.tagIds);
   }
 
   private async allTagsExist(tagIds: number[]): Promise<boolean> {
