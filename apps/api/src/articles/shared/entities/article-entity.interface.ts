@@ -21,7 +21,13 @@ export type IArticleEntityPersistence = Omit<
   keyof IArticleRelations
 >;
 
+export type IArticleEntityUpdateProps = Partial<
+  Omit<IArticleEntityProps, 'authorId'>
+>;
+
 export interface IArticleEntity extends IArticleEntityData {
   toPersistence(): IArticleEntityPersistence;
+  isAuthor(userId: bigint): boolean;
   delete(userId: bigint): void;
+  update(props: IArticleEntityUpdateProps): void;
 }

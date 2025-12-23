@@ -1,15 +1,19 @@
 import { IArticleEntity, IArticleRepository } from '@articles/shared';
-import { PrismaService } from '@database';
+import { PrismaService, TransactionClient } from '@database';
 import { Injectable, Provider } from '@nestjs/common';
 import { ArticleEntity } from '..';
-import { Prisma } from 'generated/prisma';
+import { Prisma, PrismaClient } from 'generated/prisma';
 
 @Injectable()
 export class ArticleRepository implements IArticleRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  private get client(): PrismaClient | TransactionClient {
+    return this.prisma.getClient();
+  }
+
   async create(article: IArticleEntity): Promise<IArticleEntity> {
-    const createdArticle = await this.prisma.article.create({
+    const createdArticle = await this.client.article.create({
       data: article.toPersistence(),
       include: {
         articleTags: true,
@@ -55,12 +59,15 @@ export class ArticleRepository implements IArticleRepository {
     }
 
     const [articles, total] = await Promise.all([
-      this.prisma.article.findMany({
+      this.client.article.findMany({
         skip: (page - 1) * limit,
         take: limit,
         where,
         include: {
           articleTags: {
+            where: {
+              deletedAt: null,
+            },
             include: {
               tag: true,
             },
@@ -76,11 +83,18 @@ export class ArticleRepository implements IArticleRepository {
     };
   }
 
-  async findById(id: number): Promise<IArticleEntity | null> {
-    const article = await this.prisma.article.findUnique({
+  async findById(id: bigint): Promise<IArticleEntity | null> {
+    const article = await this.client.article.findUnique({
       where: {
         id,
         deletedAt: null,
+      },
+      include: {
+        articleTags: {
+          where: {
+            deletedAt: null,
+          },
+        },
       },
     });
 
@@ -92,7 +106,7 @@ export class ArticleRepository implements IArticleRepository {
   }
 
   async update(article: IArticleEntity): Promise<IArticleEntity> {
-    const updatedArticle = await this.prisma.article.update({
+    const updatedArticle = await this.client.article.update({
       where: {
         id: article.id,
       },

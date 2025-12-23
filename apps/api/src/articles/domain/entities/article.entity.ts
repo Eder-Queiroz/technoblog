@@ -4,6 +4,7 @@ import {
   IArticleEntityData,
   IArticleEntityPersistence,
   IArticleEntityProps,
+  IArticleEntityUpdateProps,
 } from '@articles/shared';
 import { AuthorEntity } from './author.entity';
 import { ArticleTagEntity } from './article-tag.entity';
@@ -60,7 +61,7 @@ export class ArticleEntity implements IArticleEntity {
     };
   }
 
-  private isAuthor(userId: bigint): boolean {
+  isAuthor(userId: bigint): boolean {
     return this.authorId === userId;
   }
 
@@ -69,5 +70,11 @@ export class ArticleEntity implements IArticleEntity {
       throw new ArticleNotAuthorException();
     }
     this.deletedAt = new Date();
+  }
+
+  update(props: IArticleEntityUpdateProps): void {
+    this.title = props.title ?? this.title;
+    this.content = props.content ?? this.content;
+    this.updatedAt = new Date();
   }
 }

@@ -2,10 +2,11 @@ import { ArticleEntity } from '@articles/domain';
 import {
   IArticleRepository,
   IArticleTagRepository,
-  IPostArticleInput,
+  type IPostArticleInput,
   IPostArticleUseCase,
   ITagRepository,
 } from '@articles/shared';
+import { Transactional } from '@database';
 import { Injectable, NotFoundException, Provider } from '@nestjs/common';
 
 @Injectable()
@@ -16,6 +17,7 @@ export class PostArticleUseCase implements IPostArticleUseCase {
     private readonly tagRepository: ITagRepository,
   ) {}
 
+  @Transactional()
   async execute(
     { title, content, tagIds }: IPostArticleInput,
     authorId: bigint,

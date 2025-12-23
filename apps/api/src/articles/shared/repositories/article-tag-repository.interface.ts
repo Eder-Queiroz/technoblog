@@ -9,4 +9,8 @@ export abstract class IArticleTagRepository {
     articleId: bigint;
     tagIds: number[];
   }): Promise<IArticleTagEntity[]>;
+
+  abstract update(articleTag: IArticleTagEntity): Promise<IArticleTagEntity>;
+
+  abstract findByArticleId(articleId: bigint): Promise<IArticleTagEntity[]>;
 }

@@ -22,4 +22,5 @@ export type IArticleTagEntityPersistence = Omit<
 
 export interface IArticleTagEntity extends IArticleTagEntityData {
   toPersistence(): IArticleTagEntityPersistence;
+  delete(): void;
 }

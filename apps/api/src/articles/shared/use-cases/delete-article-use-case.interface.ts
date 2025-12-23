@@ -1,3 +1,3 @@
 export abstract class IDeleteArticleUseCase {
-  abstract execute(articleId: number, userId: bigint): Promise<void>;
+  abstract execute(articleId: bigint, userId: bigint): Promise<void>;
 }

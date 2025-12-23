@@ -1,14 +1,19 @@
 import { IArticleTagEntity, IArticleTagRepository } from '@articles/shared';
-import { PrismaService } from '@database';
+import { PrismaService, TransactionClient } from '@database';
 import { Injectable, Provider } from '@nestjs/common';
 import { ArticleTagEntity } from '../entities/article-tag.entity';
+import { PrismaClient } from 'generated/prisma';
 
 @Injectable()
 export class ArticleTagRepository implements IArticleTagRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  private get client(): PrismaClient | TransactionClient {
+    return this.prisma.getClient();
+  }
+
   async create(articleTag: IArticleTagEntity): Promise<IArticleTagEntity> {
-    const createdArticleTag = await this.prisma.articleTag.create({
+    const createdArticleTag = await this.client.articleTag.create({
       data: articleTag.toPersistence(),
     });
 
@@ -22,7 +27,7 @@ export class ArticleTagRepository implements IArticleTagRepository {
     articleId: bigint;
     tagIds: number[];
   }): Promise<IArticleTagEntity[]> {
-    const createdArticleTags = await this.prisma.articleTag.createManyAndReturn(
+    const createdArticleTags = await this.client.articleTag.createManyAndReturn(
       {
         data: tagIds.map((tagId) => ({
           articleId,
@@ -32,6 +37,28 @@ export class ArticleTagRepository implements IArticleTagRepository {
     );
 
     return createdArticleTags.map(ArticleTagEntity.restore);
+  }
+
+  async update(articleTag: IArticleTagEntity): Promise<IArticleTagEntity> {
+    const updatedArticleTag = await this.client.articleTag.update({
+      where: {
+        id: articleTag.id,
+      },
+      data: articleTag.toPersistence(),
+    });
+
+    return ArticleTagEntity.restore(updatedArticleTag);
+  }
+
+  async findByArticleId(articleId: bigint): Promise<IArticleTagEntity[]> {
+    const articleTags = await this.client.articleTag.findMany({
+      where: {
+        articleId,
+        deletedAt: null,
+      },
+    });
+
+    return articleTags.map(ArticleTagEntity.restore);
   }
 }
 

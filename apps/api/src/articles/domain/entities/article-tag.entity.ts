@@ -54,4 +54,8 @@ export class ArticleTagEntity implements IArticleTagEntity {
       deletedAt: this.deletedAt,
     };
   }
+
+  delete(): void {
+    this.deletedAt = new Date();
+  }
 }

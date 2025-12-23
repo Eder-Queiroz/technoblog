@@ -2,9 +2,11 @@ import {
   IDeleteArticleUseCase,
   IListArticlesUseCase,
   IPostArticleUseCase,
+  IUpdateArticleUseCase,
   PaginatedArticleInput,
   PaginatedArticlesOutput,
   PostArticleInput,
+  UpdateArticleInput,
 } from '@articles/shared';
 import {
   Body,
@@ -12,6 +14,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -25,7 +28,12 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuthGuard, CurrentUser, type IBaseUserEntityData } from '@shared';
+import {
+  AuthGuard,
+  BigIntIdInput,
+  CurrentUser,
+  type IBaseUserEntityData,
+} from '@shared';
 
 @ApiTags('Articles')
 @Controller('articles')
@@ -35,6 +43,7 @@ export class ArticleController {
     private readonly postArticleUseCase: IPostArticleUseCase,
     private readonly listArticleUseCase: IListArticlesUseCase,
     private readonly deleteArticleUseCase: IDeleteArticleUseCase,
+    private readonly updateArticleUseCase: IUpdateArticleUseCase,
   ) {}
 
   @Post()
@@ -75,9 +84,19 @@ export class ArticleController {
     description: 'Only the author can delete this article',
   })
   async deleteArticle(
-    @Param('id') id: number,
+    @Param() { id }: BigIntIdInput,
     @CurrentUser() user: IBaseUserEntityData,
   ): Promise<void> {
     return this.deleteArticleUseCase.execute(id, user.id);
+  }
+
+  @Patch(':id')
+  @ApiBody({ type: UpdateArticleInput })
+  async updateArticle(
+    @Param() { id }: BigIntIdInput,
+    @Body() dto: UpdateArticleInput,
+    @CurrentUser() { id: userId }: IBaseUserEntityData,
+  ): Promise<void> {
+    return this.updateArticleUseCase.execute(id, userId, dto);
   }
 }

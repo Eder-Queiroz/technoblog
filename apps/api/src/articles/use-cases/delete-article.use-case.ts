@@ -14,7 +14,7 @@ import {
 export class DeleteArticleUseCase implements IDeleteArticleUseCase {
   constructor(private readonly articleRepository: IArticleRepository) {}
 
-  async execute(articleId: number, userId: bigint): Promise<void> {
+  async execute(articleId: bigint, userId: bigint): Promise<void> {
     try {
       const article = await this.articleRepository.findById(articleId);
 
