@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "641693954686",
+    "project_id": "technoblog-f8152",
+    "storage_bucket": "technoblog-f8152.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641693954686:android:2a87c5345d5c32ff3e5e2f",
+        "android_client_info": {
+          "package_name": "com.example.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641693954686-113n7pcc3fd0sjfagh5f66cs8m6jjn6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCigA849WydCLaeLF_m9zhwo_M9omCNjRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641693954686-113n7pcc3fd0sjfagh5f66cs8m6jjn6e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "641693954686-78ks9pcj2uppu6jv4ue1iaoveur5uvhp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.technoblog.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,41 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "technoblog-f8152",
+          "appId": "1:641693954686:android:2a87c5345d5c32ff3e5e2f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "technoblog-f8152",
+          "appId": "1:641693954686:ios:9a2a0f83193315d93e5e2f",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "technoblog-f8152",
+          "appId": "1:641693954686:ios:13eff90fb09d60a63e5e2f",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "technoblog-f8152",
+          "configurations": {
+            "android": "1:641693954686:android:2a87c5345d5c32ff3e5e2f",
+            "ios": "1:641693954686:ios:9a2a0f83193315d93e5e2f",
+            "macos": "1:641693954686:ios:13eff90fb09d60a63e5e2f",
+            "web": "1:641693954686:web:05ff9802ab7670ab3e5e2f",
+            "windows": "1:641693954686:web:a766d3c1858eda7d3e5e2f"
+          }
+        }
+      }
+    }
+  }
+}

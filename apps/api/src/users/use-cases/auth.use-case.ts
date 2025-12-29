@@ -65,7 +65,13 @@ export class AuthUseCase implements IAuthUseCase {
       secret: this.jwtSecret,
     });
 
-    return new AuthOutput(token);
+    return new AuthOutput(
+      updatedUser.id,
+      updatedUser.fullName,
+      updatedUser.email,
+      updatedUser.avatarUrl,
+      token,
+    );
   }
 }
 
