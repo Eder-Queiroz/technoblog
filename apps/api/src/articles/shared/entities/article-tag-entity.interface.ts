@@ -1,4 +1,4 @@
-import { BaseProps } from '@shared';
+import { BaseProps, ToPersistence } from '@shared';
 import { IArticleEntityData } from '..';
 import { ITagEntityData } from './teg-entity.interface';
 
@@ -15,9 +15,9 @@ export interface IArticleTagRelations {
 export type IArticleTagEntityData = BaseProps<IArticleTagEntityProps> &
   IArticleTagRelations;
 
-export type IArticleTagEntityPersistence = Omit<
+export type IArticleTagEntityPersistence = ToPersistence<
   IArticleTagEntityData,
-  keyof IArticleTagRelations
+  IArticleTagRelations
 >;
 
 export interface IArticleTagEntity extends IArticleTagEntityData {

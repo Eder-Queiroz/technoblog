@@ -12,12 +12,23 @@ export class TagRepository implements ITagRepository {
     return this.prisma.getClient();
   }
 
+  async findAll(): Promise<ITagEntity[]> {
+    const tags = await this.client.tag.findMany({
+      where: {
+        deletedAt: null,
+      },
+    });
+
+    return tags.map(TagEntity.restore);
+  }
+
   async findByIds(ids: number[]): Promise<ITagEntity[]> {
     const tags = await this.client.tag.findMany({
       where: {
         id: {
           in: ids,
         },
+        deletedAt: null,
       },
     });
 

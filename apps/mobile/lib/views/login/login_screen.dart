@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/utils/components/button.dart';
 import 'package:mobile/views/contexts/user_context.dart';
+import 'package:mobile/views/utils/common_app_bar.dart';
+import 'package:mobile/views/utils/common_spacing.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -23,15 +25,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final user = ref.watch(userContextProvider);
 
+    final spacing = Theme.of(context).extension<CommonSpacing>()!;
+
     return Scaffold(
-      appBar: AppBar(title: Text('TechBlog')),
+      appBar: CommonAppBar(),
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 69),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 16,
+            spacing: spacing.md,
             children: [
               Text(
                 'Insights & Learning',

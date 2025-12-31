@@ -1,4 +1,4 @@
-import { BaseProps } from '@shared';
+import { BaseProps, ToPersistence } from '@shared';
 import { IArticleTagEntityData } from './article-tag-entity.interface';
 
 export interface ITagEntityProps {
@@ -12,7 +12,10 @@ export interface ITagRelations {
 export type ITagEntityData = Omit<BaseProps<ITagEntityProps>, 'id'> &
   ITagRelations & { id: number };
 
-export type ITagEntityPersistence = Omit<ITagEntityData, keyof ITagRelations>;
+export type ITagEntityPersistence = ToPersistence<
+  ITagEntityData,
+  ITagRelations
+>;
 
 export interface ITagEntity extends ITagEntityData {
   toPersistence(): ITagEntityPersistence;

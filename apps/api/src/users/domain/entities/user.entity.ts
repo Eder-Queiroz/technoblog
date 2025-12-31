@@ -1,4 +1,9 @@
-import { IUserEntity, IUserEntityData, IUserEntityProps } from '@users/shared';
+import {
+  IUserEntity,
+  IUserEntityData,
+  IUserEntityPersistence,
+  IUserEntityProps,
+} from '@users/shared';
 
 export class UserEntity implements IUserEntity {
   id: bigint;
@@ -35,16 +40,12 @@ export class UserEntity implements IUserEntity {
     return new UserEntity(props);
   }
 
-  toPersistence(): IUserEntityData {
+  toPersistence(): IUserEntityPersistence {
     return {
-      id: this.id,
       googleId: this.googleId,
       email: this.email,
       fullName: this.fullName,
       avatarUrl: this.avatarUrl,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-      deletedAt: this.deletedAt,
     };
   }
 }

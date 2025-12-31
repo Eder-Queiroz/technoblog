@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/domain/user/entities/user_entity.dart';
 import 'package:mobile/services/api/api_client.dart';
 
-final authApiProvider = Provider(
+final authApiProvider = Provider<AuthApi>(
   (ref) => AuthApi(apiClient: ref.read(apiClientProvider)),
 );
 

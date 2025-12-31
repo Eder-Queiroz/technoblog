@@ -10,10 +10,12 @@ import { PostArticleUseCaseProvider } from './use-cases/post-article.use-case';
 import { ListArticleUseCaseProvider } from './use-cases/list-article.use-case';
 import { DeleteArticleUseCaseProvider } from './use-cases/delete-article.use-case';
 import { UpdateArticleUseCaseProvider } from './use-cases/update-article.use-case';
+import { AvailableTagsUseCaseProvider } from './use-cases/available-tags.use-case';
+import { TagController } from './controller/tag.controller';
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [ArticleController],
+  controllers: [ArticleController, TagController],
   providers: [
     ArticleRepositoryProvider,
     ArticleTagRepositoryProvider,
@@ -22,6 +24,7 @@ import { UpdateArticleUseCaseProvider } from './use-cases/update-article.use-cas
     ListArticleUseCaseProvider,
     DeleteArticleUseCaseProvider,
     UpdateArticleUseCaseProvider,
+    AvailableTagsUseCaseProvider,
   ],
   exports: [
     ArticleRepositoryProvider,
@@ -31,6 +34,7 @@ import { UpdateArticleUseCaseProvider } from './use-cases/update-article.use-cas
     ListArticleUseCaseProvider,
     DeleteArticleUseCaseProvider,
     UpdateArticleUseCaseProvider,
+    AvailableTagsUseCaseProvider,
   ],
 })
 export class ArticlesModule {}

@@ -72,6 +72,7 @@ export class ArticleRepository implements IArticleRepository {
               tag: true,
             },
           },
+          author: true,
         },
       }),
       this.prisma.article.count({ where }),

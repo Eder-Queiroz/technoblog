@@ -46,12 +46,8 @@ export class ArticleTagEntity implements IArticleTagEntity {
 
   toPersistence(): IArticleTagEntityPersistence {
     return {
-      id: this.id,
       articleId: this.articleId,
       tagId: this.tagId,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-      deletedAt: this.deletedAt,
     };
   }
 

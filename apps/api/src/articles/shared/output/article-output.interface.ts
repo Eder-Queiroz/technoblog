@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ITagsOutput, TagsOutput } from './tag-output.interface';
-import { IArticleEntity } from '..';
+import { AuthorOutput, IArticleEntity, IAuthorOutput } from '..';
 
 export interface IArticleOutput {
   id: string;
   title: string;
   content: string;
+  author?: IAuthorOutput;
   tags: ITagsOutput[];
 }
 
@@ -33,6 +34,12 @@ export class ArticleOutput implements IArticleOutput {
   content: string;
 
   @ApiProperty({
+    description: 'The article author',
+    type: AuthorOutput,
+  })
+  author?: AuthorOutput;
+
+  @ApiProperty({
     description: 'The article tags',
     type: [TagsOutput],
   })
@@ -42,6 +49,7 @@ export class ArticleOutput implements IArticleOutput {
     this.id = props.id;
     this.title = props.title;
     this.content = props.content;
+    this.author = props.author;
     this.tags = props.tags.map(TagsOutput.fromEntity);
   }
 
@@ -50,6 +58,9 @@ export class ArticleOutput implements IArticleOutput {
       id: entity.id.toString(),
       title: entity.title,
       content: entity.content,
+      author: entity.author
+        ? AuthorOutput.fromEntity(entity.author)
+        : undefined,
       tags:
         entity.articleTags
           ?.filter((articleTag) => articleTag.tag != null)

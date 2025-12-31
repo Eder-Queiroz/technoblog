@@ -64,6 +64,26 @@ class ApiClient {
     }
   }
 
+  Future<List<T>> getList<T>(
+    String path, {
+    required Deserializer<T> deserialize,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final response = await _dio.get(
+        path,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return (response.data!).map<T>((e) => deserialize(e)).toList();
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
   Future<T> post<T>(
     String path, {
     required Deserializer<T> deserialize,

@@ -42,11 +42,7 @@ export class TagEntity implements ITagEntity {
 
   toPersistence(): ITagEntityPersistence {
     return {
-      id: this.id,
       name: this.name,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-      deletedAt: this.deletedAt,
     };
   }
 }

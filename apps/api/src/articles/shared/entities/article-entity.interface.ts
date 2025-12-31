@@ -1,4 +1,4 @@
-import { BaseProps } from '@shared';
+import { BaseProps, ToPersistence } from '@shared';
 import { IAuthorEntityData } from '..';
 import { IArticleTagEntityData } from './article-tag-entity.interface';
 
@@ -16,9 +16,9 @@ export interface IArticleRelations {
 export type IArticleEntityData = BaseProps<IArticleEntityProps> &
   IArticleRelations;
 
-export type IArticleEntityPersistence = Omit<
+export type IArticleEntityPersistence = ToPersistence<
   IArticleEntityData,
-  keyof IArticleRelations
+  IArticleRelations
 >;
 
 export type IArticleEntityUpdateProps = Partial<

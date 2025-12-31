@@ -51,13 +51,9 @@ export class ArticleEntity implements IArticleEntity {
 
   toPersistence(): IArticleEntityPersistence {
     return {
-      id: this.id,
       title: this.title,
       authorId: this.authorId,
       content: this.content,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-      deletedAt: this.deletedAt,
     };
   }
 

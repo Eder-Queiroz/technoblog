@@ -14,10 +14,12 @@ export * from './input/update-article-input.interface';
 export * from './output/article-output.interface';
 export * from './output/paginated-articles-output.interface';
 export * from './output/tag-output.interface';
+export * from './output/author-output.interface';
 
 export * from './use-cases/post-article-use-case.interface';
 export * from './use-cases/list-articles-use-case.interface';
 export * from './use-cases/delete-article-use-case.interface';
 export * from './use-cases/update-article-use-case.interface';
+export * from './use-cases/available-tags-use-case.interface';
 
 export * from './exceptions/article-domain.exception';

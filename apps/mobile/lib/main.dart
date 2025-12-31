@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/firebase_options.dart';
 import 'package:mobile/router/router.dart';
 import 'package:mobile/utils/core/environment.dart';
+import 'package:mobile/views/utils/common_spacing.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,8 @@ class MyApp extends ConsumerWidget {
           seedColor: Color(0xFF67A22D),
           primary: Color(0xFF67A22D),
           surface: Color(0xFFEDF2E8),
+          onSurface: Color(0xFF758269),
+          tertiary: Color(0xFF141C0D),
         ),
         scaffoldBackgroundColor: Color(0xFFFFFFFF),
         appBarTheme: AppBarTheme(
@@ -114,6 +117,10 @@ class MyApp extends ConsumerWidget {
           ),
         ),
         fontFamily: 'Newsreader',
+        extensions: [
+          CommonSpacing(xs: 4, sm: 8, md: 16, lg: 24, xl: 32),
+          CommonRadius(sm: 4, md: 8, lg: 16, xl: 32, full: 9999),
+        ],
       ),
       routerConfig: appRouter,
     );

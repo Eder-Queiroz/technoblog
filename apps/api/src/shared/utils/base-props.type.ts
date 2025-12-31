@@ -4,3 +4,8 @@ export type BaseProps<T> = T & {
   updatedAt: Date;
   deletedAt: Date | null;
 };
+
+export type ToPersistence<T, Relations = object> = Omit<
+  T,
+  keyof Relations | 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
+>;

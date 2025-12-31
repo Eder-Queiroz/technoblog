@@ -6,7 +6,7 @@ import 'package:mobile/domain/user/entities/user_entity.dart';
 import 'package:mobile/domain/user/repositories/auth_repository.interface.dart';
 import 'package:mobile/services/google_sign_in/google_sign_in_services.dart';
 
-final authRepositoryProvider = Provider<AuthRepositoryImpl>(
+final authRepositoryProvider = Provider<IAuthRepository>(
   (ref) => AuthRepositoryImpl(
     authApi: ref.read(authApiProvider),
     authStorage: ref.read(authStorageProvider),
