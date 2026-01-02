@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mobile/data/repositories/article_repository_impl.dart';
-import 'package:mobile/data/repositories/tag_rpository_impl.dart';
+import 'package:mobile/data/repositories/tag_repository_impl.dart';
 import 'package:mobile/domain/article/dtos/paginated_articles_params_dto.dart';
 import 'package:mobile/domain/article/entities/article_entity.dart';
 import 'package:mobile/domain/article/repositories/article_repository.interface.dart';
@@ -11,22 +11,25 @@ import 'package:mobile/views/articles/list/list_article_state.dart';
 import 'package:mobile/views/utils/debounce.dart';
 
 final listArticleViewModelProvider =
-    NotifierProvider<ListArticleViewModel, ListArticleState>(
+    AutoDisposeNotifierProvider<ListArticleViewModel, ListArticleState>(
       ListArticleViewModel.new,
     );
 
-class ListArticleViewModel extends Notifier<ListArticleState> {
-  late final ITagRepository _tagRepository;
-  late final IArticleRepository _articleRepository;
-  late final Debounce _searchDebounce;
+class ListArticleViewModel extends AutoDisposeNotifier<ListArticleState> {
+  ITagRepository get _tagRepository => ref.read(tagRepositoryProvider);
+  IArticleRepository get _articleRepository =>
+      ref.read(articleRepositoryProvider);
+  final Debounce _searchDebounce = Debounce(
+    duration: const Duration(milliseconds: 500),
+  );
 
   @override
   ListArticleState build() {
-    _tagRepository = ref.read(tagRepositoryProvider);
-    _articleRepository = ref.read(articleRepositoryProvider);
-    _searchDebounce = Debounce(duration: const Duration(milliseconds: 500));
-
     final pagingState = PagingState<int, Article>();
+
+    Future.microtask(() async {
+      await init();
+    });
 
     return ListArticleState(pagingState: pagingState);
   }
@@ -112,7 +115,6 @@ class ListArticleViewModel extends Notifier<ListArticleState> {
   }
 
   bool isTagSelected(Tag tag) {
-    final selectedIds = state.selectedTags.toSet();
-    return selectedIds.contains(tag);
+    return state.selectedTags.contains(tag);
   }
 }

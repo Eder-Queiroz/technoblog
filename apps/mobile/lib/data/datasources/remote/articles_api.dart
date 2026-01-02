@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/domain/article/dtos/form_article_dto.dart';
 import 'package:mobile/domain/article/dtos/paginated_articles_params_dto.dart';
 import 'package:mobile/domain/article/entities/paginated_article_entity.dart';
 import 'package:mobile/services/api/api_client.dart';
@@ -20,5 +21,9 @@ class ArticlesApi {
       queryParameters: params.toJson(),
       deserialize: (json) => PaginatedArticle.fromJson(json),
     );
+  }
+
+  Future<void> createArticle(FormArticleDto dto) async {
+    return await _apiClient.post<void>('/articles', data: dto.toJson());
   }
 }

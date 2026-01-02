@@ -86,7 +86,7 @@ class ApiClient {
 
   Future<T> post<T>(
     String path, {
-    required Deserializer<T> deserialize,
+    Deserializer<T>? deserialize,
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
@@ -101,7 +101,7 @@ class ApiClient {
         cancelToken: cancelToken,
       );
 
-      return deserialize(response.data!);
+      return deserialize?.call(response.data!) ?? null as T;
     } on DioException catch (e) {
       throw _handleError(e);
     }

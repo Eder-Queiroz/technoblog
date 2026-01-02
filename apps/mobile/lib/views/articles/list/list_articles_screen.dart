@@ -25,10 +25,6 @@ class _ListArticlesScreenState extends ConsumerState<ListArticlesScreen> {
   void initState() {
     super.initState();
     _viewModel = ref.read(listArticleViewModelProvider.notifier);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _viewModel.init();
-    });
   }
 
   @override
@@ -39,6 +35,16 @@ class _ListArticlesScreenState extends ConsumerState<ListArticlesScreen> {
 
     return Scaffold(
       appBar: CommonAppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          NewArticleFormRoute().push(context);
+        },
+        child: Icon(
+          Icons.add_rounded,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _viewModel.refresh,
@@ -74,14 +80,11 @@ class _ListArticlesScreenState extends ConsumerState<ListArticlesScreen> {
                       article: item,
                       onEdit: item.canBeEditedBy(contextUser)
                           ? () {
-                              // TODO: go to edit article screen
-                              print('editando artigo');
+                              EditArticleFormRoute(id: item.id).push(context);
                             }
                           : null,
                       onTap: () {
-                        ArticleDetailRoute(
-                          id: item.id.toString(),
-                        ).push(context);
+                        ArticleDetailRoute(id: item.id).push(context);
                       },
                     );
                   },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/views/utils/common_app_bar.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
-  final String id;
+  final BigInt id;
   const ArticleDetailScreen({super.key, required this.id});
 
   @override

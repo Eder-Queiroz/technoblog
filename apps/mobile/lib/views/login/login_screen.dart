@@ -50,7 +50,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               Button(
                 label: 'Começar a ler',
                 onPressedAsync: _userContext.login,
-                isLoading: user.isLoading,
               ),
             ],
           ),
